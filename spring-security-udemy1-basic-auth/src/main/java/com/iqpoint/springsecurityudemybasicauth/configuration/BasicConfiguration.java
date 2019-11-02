@@ -29,10 +29,21 @@ public class BasicConfiguration extends WebSecurityConfigurerAdapter {
 			    .antMatchers("/user/**").hasRole("USER")
 			    .antMatchers("/admin/**").hasRole("ADMIN")
 			    .antMatchers("/poweruser/**").denyAll()
+			    .antMatchers("/login/Login.jsp").permitAll()
+			    .antMatchers("/login/Error.jsp").permitAll()
 			    .antMatchers("/*").permitAll()
 			    .anyRequest().authenticated()
-		    .and()
-		    .httpBasic();
+		    //.and()
+		    //.httpBasic();
+			.and()
+			.formLogin()
+			.loginPage("/login/Login.jsp")
+			.loginProcessingUrl("/perform_login")
+			.defaultSuccessUrl("/login/Welcome.jsp")
+			.failureUrl("/login/Error.jsp?error=true")
+			.and()
+			.logout()
+			.logoutUrl("/perform_logout");
 	}
 	
 	@Bean
